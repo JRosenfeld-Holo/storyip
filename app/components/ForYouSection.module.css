@@ -231,6 +231,14 @@
   .headline {
     font-size: clamp(1.8rem, 7vw, 3rem);
   }
+
+  /* Reserve 2 lines of space so all tiles are equal height regardless of text length */
+  .audienceLine {
+    min-height: 2.7rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
