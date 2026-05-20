@@ -381,19 +381,7 @@
     gap: var(--space-xl);
   }
 
-  /* Show video on mobile in a contained height */
   .videoCol {
-    display: flex;
-    max-height: 340px;
-    overflow: hidden;
-    border-radius: 16px;
-  }
-
-  .imageFrame {
-    transform: rotate(0deg);
-  }
-
-  .badge {
     display: none;
   }
 
