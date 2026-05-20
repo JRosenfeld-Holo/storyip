@@ -1,0 +1,264 @@
+/* ═══════════════════════════════════════════════════════════════
+   Story IP — Global Design Tokens & Reset
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Color Palette — derived from book-on-dock imagery */
+  --parchment: #F5EEE3;
+  --ink: #1A1410;
+  --gold: #C4922A;
+  --gold-light: #D4A94A;
+  --gold-glow: rgba(196, 146, 42, 0.25);
+  --ocean: #3D7A94;
+  --sky: #8DC4D8;
+  --sand: #A67B4B;
+  --night: #0D0B08;
+  --cream-mid: #EDE4D4;
+  --white: #FFFFFF;
+
+  /* Typography tokens (set by next/font in layout.tsx) */
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-lora);
+  --font-label: var(--font-montserrat);
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+  --space-2xl: 8rem;
+  --space-3xl: 12rem;
+
+  /* Layout */
+  --max-width: 1200px;
+  --nav-height: 88px;
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 200ms var(--ease-out-expo);
+  --transition-base: 400ms var(--ease-out-expo);
+  --transition-slow: 800ms var(--ease-out-expo);
+  --transition-glacial: 1200ms var(--ease-out-expo);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* DO NOT use overflow-x: hidden here — it breaks position: sticky */
+}
+
+body {
+  min-height: 100%;
+  color: var(--ink);
+  background: var(--night);
+  font-family: var(--font-body), Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: clip; /* clip prevents horizontal scroll without breaking sticky/fixed */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--night);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-light);
+}
+
+/* ─── Shared Utilities ───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Content sections sit above the fixed hero canvas */
+.contentSection {
+  position: relative;
+  z-index: 2;
+}
+
+/* Gold CTA Button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.1rem 2.8rem;
+  background: var(--gold);
+  color: var(--night);
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border-radius: 100px;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  border-radius: inherit;
+}
+
+.cta-button:hover {
+  background: var(--gold-light);
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 32px rgba(196, 146, 42, 0.4),
+    0 0 0 1px rgba(196, 146, 42, 0.2);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
+}
+
+/* Section label (small gold caps) */
+.section-label {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* Section heading */
+.section-heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-md);
+}
+
+/* Gold gradient text */
+.gold-text {
+  background: linear-gradient(135deg, var(--gold) 0%, #E8C96D 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Fade-up animation for IntersectionObserver */
+.fade-up {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1s var(--ease-out-expo),
+              transform 1s var(--ease-out-expo);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.25s; }
+.stagger-3 { transition-delay: 0.4s; }
+.stagger-4 { transition-delay: 0.55s; }
+
+/* ─── Reduced Motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --space-lg: 3rem;
+    --space-xl: 4rem;
+    --space-2xl: 5rem;
+    --space-3xl: 7rem;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+}

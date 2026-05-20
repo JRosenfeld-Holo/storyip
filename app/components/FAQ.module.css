@@ -1,0 +1,113 @@
+.section {
+  background: var(--night);
+  padding: var(--space-3xl) 0;
+  position: relative;
+}
+
+.inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.label {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--parchment);
+  letter-spacing: -0.02em;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border-bottom: 1px solid rgba(196, 146, 42, 0.08);
+}
+
+.item:first-child {
+  border-top: 1px solid rgba(196, 146, 42, 0.08);
+}
+
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: rgba(245, 238, 227, 0.8);
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color var(--transition-base);
+}
+
+.question:hover {
+  color: var(--gold);
+}
+
+.questionOpen {
+  color: var(--gold);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 146, 42, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--gold);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+}
+
+.iconOpen {
+  transform: rotate(180deg);
+  background: var(--gold);
+  color: var(--night);
+  border-color: var(--gold);
+}
+
+.answerWrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-out-expo);
+}
+
+.answerWrapOpen {
+  max-height: 500px;
+}
+
+.answer {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(245, 238, 227, 0.65);
+  padding-bottom: 1.5rem;
+}

@@ -1,0 +1,216 @@
+.section {
+  background: var(--parchment);
+  padding: var(--space-3xl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.label {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.03em;
+}
+
+.headingAccent {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.subheading {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(26, 20, 16, 0.5);
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(26, 20, 16, 0.4);
+}
+
+.input {
+  width: 100%;
+  padding: 0.85rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  border-radius: 0;
+  color: var(--ink);
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input::placeholder {
+  color: rgba(26, 20, 16, 0.2);
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.textarea {
+  resize: none;
+  line-height: 1.7;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 1.25rem 2.5rem;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-top: var(--space-sm);
+}
+
+.submit:hover {
+  background: var(--gold);
+  color: var(--night);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(196, 146, 42, 0.3);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitArrow {
+  transition: transform var(--transition-base);
+}
+
+.submit:hover .submitArrow {
+  transform: translateX(4px);
+}
+
+/* Thank you state */
+.thankYou {
+  text-align: center;
+  padding: var(--space-xl) 0;
+}
+
+.thankYouOrn {
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+}
+
+.thankYouHeading {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: 2.2rem;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.thankYouText {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1rem;
+  color: rgba(26, 20, 16, 0.5);
+  line-height: 1.7;
+}
+
+/* Error message */
+.errorMsg {
+  text-align: center;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 0.85rem;
+  color: #b84c4c;
+  line-height: 1.6;
+}
+
+/* Privacy note */
+.privacy {
+  text-align: center;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 0.78rem;
+  color: rgba(26, 20, 16, 0.3);
+}
+
+@media (max-width: 640px) {
+  .section::before {
+    height: 50px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
