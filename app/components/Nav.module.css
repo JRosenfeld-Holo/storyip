@@ -152,6 +152,30 @@
   background: rgba(196, 146, 42, 0.08);
 }
 
+.dropdownGroup {
+  padding-bottom: 4px;
+}
+
+.dropdownGroup + .dropdownGroup {
+  border-top: 1px solid rgba(196, 146, 42, 0.1);
+  padding-top: 4px;
+  margin-top: 2px;
+}
+
+.dropdownGroupLabel {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(196, 146, 42, 0.45);
+  padding: 6px 16px 2px;
+  font-weight: 600;
+}
+
+.dropdownPanel {
+  min-width: 230px;
+}
+
 /* ── Mobile Who We Serve (flat, no dropdown) ──────────────── */
 .mobileServe {
   display: none;

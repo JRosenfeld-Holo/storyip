@@ -2,10 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 
-const SERVE_LINKS = [
+const PROFESSIONALS = [
   { label: "Financial Advisors", href: "/financial-advisor" },
   { label: "Chiropractors", href: "/chiropractor" },
   { label: "Dentists", href: "/dentist" },
+  { label: "Entrepreneurs", href: "/entrepreneur" },
+];
+
+const PERSONAL_BRAND = [
+  { label: "Celebrities", href: "/celebrity" },
+  { label: "Athletes", href: "/athlete" },
+  { label: "Musicians", href: "/musician" },
 ];
 
 const QUICK_LINKS = [
@@ -34,17 +41,27 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Who We Serve column */}
+          {/* Professionals column */}
           <div className={styles.col}>
-            <div className={styles.colTitle}>Who We Serve</div>
-            {SERVE_LINKS.map(({ label, href }) => (
+            <div className={styles.colTitle}>Professionals</div>
+            {PROFESSIONALS.map(({ label, href }) => (
               <Link key={href} href={href} className={styles.link}>
                 {label}
               </Link>
             ))}
           </div>
 
-          {/* Quick Links column */}
+          {/* Personal Brand column */}
+          <div className={styles.col}>
+            <div className={styles.colTitle}>Personal Brand</div>
+            {PERSONAL_BRAND.map(({ label, href }) => (
+              <Link key={href} href={href} className={styles.link}>
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Quick Links + Contact column */}
           <div className={styles.col}>
             <div className={styles.colTitle}>Quick Links</div>
             {QUICK_LINKS.map(({ label, href }) => (
@@ -52,25 +69,17 @@ export default function Footer() {
                 {label}
               </a>
             ))}
-          </div>
-
-          {/* Contact column */}
-          <div className={styles.col}>
+            <div className={styles.colDivider} />
             <div className={styles.colTitle}>Contact</div>
             <a href="mailto:hello@storyip.ai" className={styles.link}>
               hello@storyip.ai
             </a>
-            <a href="/privacy" className={styles.link}>
-              Privacy
-            </a>
-            <a href="/terms" className={styles.link}>
-              Terms
-            </a>
+            <a href="/privacy" className={styles.link}>Privacy</a>
+            <a href="/terms" className={styles.link}>Terms</a>
           </div>
         </div>
 
         <div className={styles.divider} />
-
         <div className={styles.copy}>© 2026 Story IP. All rights reserved.</div>
       </div>
     </footer>

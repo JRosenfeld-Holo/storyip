@@ -6,11 +6,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Nav.module.css";
 
-const SERVE_LINKS = [
-  { label: "Financial Advisors", href: "/financial-advisor" },
-  { label: "Chiropractors", href: "/chiropractor" },
-  { label: "Dentists", href: "/dentist" },
+const SERVE_GROUPS = [
+  {
+    group: "Professionals",
+    links: [
+      { label: "Financial Advisors", href: "/financial-advisor" },
+      { label: "Chiropractors", href: "/chiropractor" },
+      { label: "Dentists", href: "/dentist" },
+      { label: "Entrepreneurs", href: "/entrepreneur" },
+    ],
+  },
+  {
+    group: "Personal Brand",
+    links: [
+      { label: "Celebrities", href: "/celebrity" },
+      { label: "Athletes", href: "/athlete" },
+      { label: "Musicians", href: "/musician" },
+    ],
+  },
 ];
+
+// Flat list for mobile
+const ALL_SERVE_LINKS = SERVE_GROUPS.flatMap((g) => g.links);
 
 const ANCHOR_LINKS = [
   { label: "How It Works", target: "#how-it-works" },
@@ -103,15 +120,20 @@ export default function Nav() {
             </button>
             {dropdownOpen && (
               <div className={styles.dropdownPanel}>
-                {SERVE_LINKS.map(({ label, href }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={styles.dropdownItem}
-                    onClick={() => { setDropdownOpen(false); setMenuOpen(false); }}
-                  >
-                    {label}
-                  </Link>
+                {SERVE_GROUPS.map(({ group, links }) => (
+                  <div key={group} className={styles.dropdownGroup}>
+                    <div className={styles.dropdownGroupLabel}>{group}</div>
+                    {links.map(({ label, href }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        className={styles.dropdownItem}
+                        onClick={() => { setDropdownOpen(false); setMenuOpen(false); }}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
@@ -120,7 +142,7 @@ export default function Nav() {
           {/* Mobile: Who We Serve flat list */}
           <div className={styles.mobileServe}>
             <div className={styles.mobileServeLabel}>Who We Serve</div>
-            {SERVE_LINKS.map(({ label, href }) => (
+            {ALL_SERVE_LINKS.map(({ label, href }) => (
               <Link
                 key={href}
                 href={href}

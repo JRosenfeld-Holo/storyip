@@ -54,6 +54,12 @@
   margin-bottom: 0.4rem;
 }
 
+.colDivider {
+  height: 1px;
+  background: rgba(196, 146, 42, 0.1);
+  margin: 0.8rem 0;
+}
+
 .link {
   font-family: var(--font-label), 'Helvetica Neue', sans-serif;
   font-weight: 500;
