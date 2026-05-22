@@ -1,7 +1,5 @@
-/* Fill whatever parent the bookCol expands to — inset:0 is more
-   reliable than height:100% when parent dimensions change via GSAP */
 .canvas {
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  height: clamp(380px, 62vh, 680px);
   display: block;
 }

@@ -243,14 +243,16 @@ export default function BookCanvas({ wrapperRef }: Props) {
     pmrem.dispose();
 
     // ── Camera ───────────────────────────────────────────────
+    // FOV 60 + lookAt offset ensures the opening pages stay in frame.
+    // At FOV 42 the left edge of the frustum clipped the rotating cover.
     const camera = new THREE.PerspectiveCamera(
-      42,
+      60,
       mount.clientWidth / mount.clientHeight,
       0.1,
       100
     );
-    camera.position.set(0.25, 0.15, 4.3);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, 0.15, 4.0);
+    camera.lookAt(-0.2, 0, 0);
 
     // ── Lights ───────────────────────────────────────────────
     // Warm key from upper-right
@@ -262,10 +264,10 @@ export default function BookCanvas({ wrapperRef }: Props) {
     key.shadow.blurSamples = 10;
     key.shadow.camera.near = 0.1;
     key.shadow.camera.far = 20;
-    key.shadow.camera.left = -4;
-    key.shadow.camera.right = 4;
-    key.shadow.camera.top = 4;
-    key.shadow.camera.bottom = -4;
+    key.shadow.camera.left   = -6;
+    key.shadow.camera.right  =  4;
+    key.shadow.camera.top    =  5;
+    key.shadow.camera.bottom = -5;
     scene.add(key);
 
     // Cool fill from left
@@ -412,14 +414,15 @@ export default function BookCanvas({ wrapperRef }: Props) {
         onUpdate(self) {
           const p = self.progress;
 
-          // Phase 1 (0 → 0.42): front cover swings open ~162°
-          frontPivot.rotation.y = -Math.PI * 0.9 * gsap.utils.clamp(0, 1, p / 0.42);
+          // Phase 1 (0 → 0.42): front cover swings open ~148°
+          // Reduced from 162° so the cover stays within the widened frustum
+          frontPivot.rotation.y = -Math.PI * 0.82 * gsap.utils.clamp(0, 1, p / 0.42);
 
           // Phase 2 (0.3 → 0.95): pages turn, staggered
           pageGroups.forEach((pg, i) => {
             const start = 0.30 + i * 0.074;
             const pp    = gsap.utils.clamp(0, 1, (p - start) / 0.1);
-            pg.rotation.y = -Math.PI * 0.88 * pp;
+            pg.rotation.y = -Math.PI * 0.78 * pp;
           });
 
           // Gentle book tilt follows scroll
@@ -445,22 +448,18 @@ export default function BookCanvas({ wrapperRef }: Props) {
     const tick = () => { raf = requestAnimationFrame(tick); renderer.render(scene, camera); };
     tick();
 
-    // ── Resize — use ResizeObserver so GSAP container changes trigger redraws ──
+    // ── Resize ───────────────────────────────────────────────
     const onResize = () => {
-      const w = mount.clientWidth;
-      const h = mount.clientHeight;
-      if (w === 0 || h === 0) return;
-      camera.aspect = w / h;
+      camera.aspect = mount.clientWidth / mount.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
     };
-    const ro = new ResizeObserver(onResize);
-    ro.observe(mount);
+    window.addEventListener("resize", onResize);
 
     // ── Cleanup ──────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(raf);
-      ro.disconnect();
+      window.removeEventListener("resize", onResize);
       st?.kill();
       gsap.killTweensOf(book.position);
 
