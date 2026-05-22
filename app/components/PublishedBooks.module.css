@@ -1,0 +1,214 @@
+.section {
+  background: var(--night);
+  padding: var(--space-3xl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(196,146,42,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.label {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--parchment);
+  letter-spacing: -0.02em;
+}
+
+.headingAccent {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.subheading {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1rem;
+  color: rgba(245,238,227,0.45);
+  margin-top: var(--space-sm);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  transition: all 0.5s var(--ease-out-expo);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* Book cover mockup */
+.cover {
+  width: 180px;
+  height: 260px;
+  perspective: 800px;
+}
+
+.coverInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 4px 12px 12px 4px;
+  overflow: hidden;
+  box-shadow:
+    6px 6px 20px rgba(0,0,0,0.5),
+    0 0 40px rgba(196,146,42,0.06);
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.card:hover .coverInner {
+  transform: rotateY(-5deg);
+}
+
+.spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  background: linear-gradient(90deg, rgba(196,146,42,0.3) 0%, rgba(196,146,42,0.1) 100%);
+}
+
+.coverContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(170deg, #1a1610 0%, #12100c 60%, #0d0b08 100%);
+  border: 1px solid rgba(196,146,42,0.15);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.coverOrn {
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: var(--space-sm);
+}
+
+.coverTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+}
+
+.coverAuthor {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,238,227,0.4);
+}
+
+.info {
+  text-align: center;
+}
+
+.bookTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--parchment);
+  margin-bottom: 0.3rem;
+}
+
+.bookAuthor {
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,238,227,0.35);
+  margin-bottom: 0.6rem;
+}
+
+.bookDesc {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(245,238,227,0.4);
+  max-width: 280px;
+}
+
+.amazonLink {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  transition: color var(--transition-fast);
+}
+
+.amazonLink:hover {
+  color: var(--gold-light);
+}
+
+.placeholder .coverContent {
+  border-style: dashed;
+}
+
+.comingSoon {
+  text-align: center;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: rgba(245,238,227,0.25);
+  margin-top: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    gap: var(--space-xl);
+  }
+}

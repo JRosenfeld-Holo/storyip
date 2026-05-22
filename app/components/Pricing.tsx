@@ -6,6 +6,7 @@ import styles from "./Pricing.module.css";
 const PLANS = [
   {
     name: "Essential Memoir",
+    slug: "essential",
     price: "$3,497",
     featured: false,
     tag: null,
@@ -19,6 +20,7 @@ const PLANS = [
   },
   {
     name: "Legacy Edition",
+    slug: "legacy",
     price: "$7,997",
     featured: true,
     tag: "Most Popular",
@@ -33,6 +35,7 @@ const PLANS = [
   },
   {
     name: "White Glove",
+    slug: "white-glove",
     price: "$12,997",
     featured: false,
     tag: null,
@@ -88,13 +91,20 @@ export default function Pricing() {
         <div className={styles.cards}>
           {PLANS.map((plan, i) => (
             <div
-              key={i}
+              key={plan.slug}
+              id={`plan-${plan.slug}`}
               className={`${styles.card} ${plan.featured ? styles.featured : ""} fade-up stagger-${i + 1}`}
             >
               {plan.tag && (
                 <div className={styles.badge}>{plan.tag}</div>
               )}
-              <div className={styles.cardName}>{plan.name}</div>
+              <a
+                href="#get-started"
+                className={styles.cardName}
+                onClick={handleClick}
+              >
+                {plan.name}
+              </a>
               <div className={styles.cardPrice}>{plan.price}</div>
               <div className={styles.features}>
                 {plan.features.map((f, j) => (
@@ -110,7 +120,7 @@ export default function Pricing() {
                   plan.featured ? styles.cardCtaPrimary : styles.cardCtaSecondary
                 }`}
                 onClick={handleClick}
-                id={`pricing-cta-${i}`}
+                id={`pricing-cta-${plan.slug}`}
               >
                 Begin Your Memoir
               </a>
