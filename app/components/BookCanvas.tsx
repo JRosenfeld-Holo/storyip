@@ -252,7 +252,7 @@ export default function BookCanvas({ wrapperRef }: Props) {
       100
     );
     camera.position.set(0, 0.15, 4.0);
-    camera.lookAt(-0.2, 0, 0);
+    camera.lookAt(-0.3, 0, 0);
 
     // ── Lights ───────────────────────────────────────────────
     // Warm key from upper-right
@@ -321,6 +321,7 @@ export default function BookCanvas({ wrapperRef }: Props) {
 
     // ── Book group ───────────────────────────────────────────
     const book = new THREE.Group();
+    book.scale.set(1.2, 1.2, 1.2);
     book.rotation.y =  0.28;
     book.rotation.x = -0.08;
     scene.add(book);
@@ -397,7 +398,7 @@ export default function BookCanvas({ wrapperRef }: Props) {
       new THREE.ShadowMaterial({ opacity: 0.22 })
     );
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y  = -H / 2 - 0.06;
+    floor.position.y  = -(H / 2 + 0.06) * 1.2; // shift down to match scaled book bottom
     floor.receiveShadow = true;
     scene.add(floor);
 

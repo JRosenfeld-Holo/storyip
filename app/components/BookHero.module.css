@@ -2,11 +2,11 @@
    BookHero — Sticky hero with scroll-driven 3-D book
    ═══════════════════════════════════════════════════════════ */
 
-/* Scroll-space: wrapper is 300vh so BookCanvas's ScrollTrigger
-   has room to animate the page-turning across the scroll distance */
+/* Scroll-space: 200vh gives one full viewport of scroll to complete
+   the page-turning animation without trapping the user too long */
 .wrapper {
   position: relative;
-  height: 300vh;
+  height: 200vh;
 }
 
 /* Sticky hero — locks in place while wrapper scrolls past */
