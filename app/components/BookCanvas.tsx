@@ -445,20 +445,22 @@ export default function BookCanvas({ wrapperRef }: Props) {
     const tick = () => { raf = requestAnimationFrame(tick); renderer.render(scene, camera); };
     tick();
 
-    // ── Resize ───────────────────────────────────────────────
+    // ── Resize — use ResizeObserver so GSAP container changes trigger redraws ──
     const onResize = () => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
+      if (w === 0 || h === 0) return;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
-    window.addEventListener("resize", onResize);
+    const ro = new ResizeObserver(onResize);
+    ro.observe(mount);
 
     // ── Cleanup ──────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
+      ro.disconnect();
       st?.kill();
       gsap.killTweensOf(book.position);
 
