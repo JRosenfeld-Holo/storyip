@@ -50,18 +50,24 @@ export default function BookHero() {
       if (started) return;
       started = true;
 
+      // Kill the CSS entrance transition and neutralize any in-progress transform
+      // BEFORE measuring — getBoundingClientRect() includes transforms, so if the
+      // entrance animation is still running the captured coords would be wrong.
+      bookCol.style.transition = "none";
+      bookCol.style.transform  = "none";
+      bookCol.style.opacity    = "1";
+
       // Capture in-flow position (hero is sticky top:0 so viewport coords = hero-relative coords)
       const r = bookCol.getBoundingClientRect();
       s0 = r.left; t0 = r.top; w0 = r.width; h0 = r.height;
 
       // Pull bookCol out of flow at the exact same position — no visual jump
-      bookCol.style.position   = "absolute";
-      bookCol.style.left       = `${s0}px`;
-      bookCol.style.top        = `${t0}px`;
-      bookCol.style.width      = `${w0}px`;
-      bookCol.style.height     = `${h0}px`;
-      bookCol.style.zIndex     = "10";
-      bookCol.style.transition = "none"; // GSAP owns the transform from here
+      bookCol.style.position = "absolute";
+      bookCol.style.left     = `${s0}px`;
+      bookCol.style.top      = `${t0}px`;
+      bookCol.style.width    = `${w0}px`;
+      bookCol.style.height   = `${h0}px`;
+      bookCol.style.zIndex   = "10";
 
       // Spacer holds the right column's space in the grid
       ph.style.height  = `${h0}px`;
