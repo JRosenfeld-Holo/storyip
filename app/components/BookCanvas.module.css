@@ -1,0 +1,7 @@
+.canvas {
+  width: 100%;
+  height: clamp(380px, 62vh, 680px);
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+}

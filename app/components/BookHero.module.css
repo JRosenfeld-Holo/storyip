@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   BookHero — Sticky hero with scroll-driven video morph
+   BookHero — Sticky hero with scroll-driven 3-D book
    ═══════════════════════════════════════════════════════════ */
 
 /* Scroll-space container — extra height gives the sticky section room to animate */
@@ -60,9 +60,6 @@
   grid-template-columns: 1fr 1fr;
   gap: clamp(3rem, 6vw, 8rem);
   align-items: center;
-  /* NOT position: relative — keeping .inner out of the positioning chain
-     so imageWrap (when absolute) anchors to the hero section (sticky, top:0 left:0)
-     and viewport coords from getBoundingClientRect() map directly to CSS left/top */
   padding-bottom: var(--space-xl);
 }
 
@@ -70,7 +67,7 @@
    LEFT: Text content
    ══════════════════════════════════════════ */
 .content {
-  position: relative; /* stacking context: keeps text above .glow (z-index 0) */
+  position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -208,138 +205,17 @@
 }
 
 /* ══════════════════════════════════════════
-   RIGHT: Video column
+   RIGHT: 3-D Book column
    ══════════════════════════════════════════ */
-
-/* NOT a positioning context — absolute imageWrap escapes to the hero section */
-.videoCol {
+.bookCol {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 1px; /* prevents collapse when placeholder is also hidden */
-}
-
-/* Hidden spacer — JS shows this (with explicit height) when imageWrap leaves flow */
-.imagePlaceholder {
-  display: none;
-  width: 100%;
-}
-
-/* In-flow at rest; JS switches to position: absolute on first scroll */
-.imageWrap {
-  width: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 1;
   opacity: 0;
   transform: translateX(28px);
   transition: opacity 0.9s ease 0.55s, transform 0.9s ease 0.55s;
-  /* z-index elevated so it renders above text during expansion */
-  z-index: 2;
-}
-
-/* Tilted frame — JS overrides border-radius + transform on scroll */
-.imageFrame {
-  position: relative;
-  width: 100%;
-  border-radius: 18px;
-  overflow: hidden;
-  transform: rotate(-2.5deg);
-  box-shadow:
-    0 50px 130px rgba(0, 0, 0, 0.65),
-    0 0 0 1px rgba(196, 146, 42, 0.08);
-  /* No CSS transition — GSAP drives transform directly to avoid competing animations */
-}
-
-/* Video — natural dimensions when in-flow; JS adds height:100% + object-fit on scroll */
-.bookVideo {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Cinematic edge vignette */
-.imgOverlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    145deg,
-    rgba(13, 11, 8, 0.10) 0%,
-    transparent 40%,
-    rgba(13, 11, 8, 0.32) 100%
-  );
-}
-
-/* Text revealed when video reaches full-screen */
-.textOverlay {
-  position: absolute;
-  top: 12%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 4;
-  padding: 0 var(--space-md);
-}
-
-.textOverlayLine {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 300;
-  font-style: italic;
-  font-size: clamp(2.4rem, 4.5vw, 5rem);
-  color: var(--parchment);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  text-shadow: 0 2px 48px rgba(13, 11, 8, 0.75);
-  margin: 0;
-}
-
-/* Floating tech badge */
-.badge {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.85rem 1.25rem;
-  background: rgba(13, 11, 8, 0.92);
-  border: 1px solid rgba(196, 146, 42, 0.22);
-  border-radius: 14px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.45);
-  z-index: 3;
-}
-
-.badgeHex {
-  font-size: 1.3rem;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.badgeText {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.badgeTitle {
-  font-family: var(--font-label), 'Helvetica Neue', sans-serif;
-  font-weight: 600;
-  font-size: 0.6rem;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--parchment);
-}
-
-.badgeSub {
-  font-family: var(--font-body), Georgia, serif;
-  font-style: italic;
-  font-size: 0.72rem;
-  color: rgba(245, 238, 227, 0.38);
 }
 
 /* ══════════════════════════════════════════
@@ -355,7 +231,7 @@
   transform: translateY(0);
 }
 
-.ready .imageWrap {
+.ready .bookCol {
   opacity: 1;
   transform: translateX(0);
 }
@@ -381,7 +257,7 @@
     gap: var(--space-xl);
   }
 
-  .videoCol {
+  .bookCol {
     display: none;
   }
 
