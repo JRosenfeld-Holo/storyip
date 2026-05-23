@@ -147,36 +147,88 @@ function makeSpineTex(): THREE.CanvasTexture {
 
 function makePageTex(seed: number): THREE.CanvasTexture {
   const cv = document.createElement("canvas");
-  cv.width = 512; cv.height = Math.round(512 * H / W);
+  cv.width  = 1024;
+  cv.height = Math.round(1024 * H / W);
   const c = cv.getContext("2d")!;
 
-  const g = c.createLinearGradient(0, 0, cv.width, 0);
-  g.addColorStop(0, "#EDE4D2");
-  g.addColorStop(1, "#F5EEE3");
-  c.fillStyle = g;
+  // Warm parchment — slight gradient from spine edge to outer edge
+  const bg = c.createLinearGradient(0, 0, cv.width, 0);
+  bg.addColorStop(0,   "#E8DEC9");
+  bg.addColorStop(0.5, "#F0E8D5");
+  bg.addColorStop(1,   "#F5EEE3");
+  c.fillStyle = bg;
   c.fillRect(0, 0, cv.width, cv.height);
 
-  // Text lines
-  c.strokeStyle = "rgba(26,20,16,0.065)";
-  c.lineWidth = 1;
-  for (let y = 68; y < cv.height - 48; y += 24) {
-    const len = (cv.width - 80) * (0.65 + (Math.sin(y * seed * 0.1) * 0.5 + 0.5) * 0.35);
-    c.beginPath(); c.moveTo(40, y); c.lineTo(40 + len, y); c.stroke();
-  }
+  // Faint margin rule
+  c.strokeStyle = "rgba(196,146,42,0.09)";
+  c.lineWidth = 1.5;
+  c.beginPath();
+  c.moveTo(98, 90); c.lineTo(98, cv.height - 88); c.stroke();
 
-  // Chapter label on early pages
-  if (seed < 3) {
-    c.fillStyle = "rgba(196,146,42,0.4)";
-    c.font = "italic 13px Georgia, serif";
-    c.textAlign = "left";
-    c.fillText(`Chapter ${seed + 1}`, 40, 46);
+  // Chapter header — each page gets its own chapter name
+  const chapters = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve"];
+  const headerY  = 110;
+  const chapter  = chapters[seed % chapters.length];
+  c.fillStyle = "rgba(196,146,42,0.52)";
+  c.font = "italic 28px Georgia, serif";
+  c.textAlign = "left";
+  c.fillText(`Chapter ${chapter}`, 114, headerY);
+
+  // Underline the chapter label
+  c.strokeStyle = "rgba(196,146,42,0.22)";
+  c.lineWidth = 1;
+  const capW = c.measureText(`Chapter ${chapter}`).width;
+  c.beginPath();
+  c.moveTo(114, headerY + 13); c.lineTo(114 + capW, headerY + 13); c.stroke();
+
+  // Deterministic pseudo-random keyed on seed
+  const rng = (n: number) => Math.abs(Math.sin(n * 127.1 + seed * 311.7)) * 0.5 + 0.25;
+
+  // Layout
+  const textLeft  = 114;
+  const textW     = cv.width - 90 - textLeft;
+  const lineH     = 31;
+  const paraGap   = 24;
+  const indentW   = 42;
+
+  let y           = headerY + 56;
+  let paraLine    = 0;
+  let isParaStart = true;
+  let li          = 0;
+
+  while (y < cv.height - 82) {
+    const indent  = isParaStart ? indentW : 0;
+    // End a paragraph after at least 3 lines with ~28% probability
+    const isLast  = paraLine >= 3 && rng(li + 0.1) < 0.56;
+    const lineLen = isLast
+      ? textW * (0.45 + rng(li) * 0.30)           // short last line
+      : textW * (0.87 + rng(li) * 0.13) - indent; // near-full line
+
+    const alpha = 0.11 + rng(li + 0.5) * 0.035;
+    c.strokeStyle = `rgba(26,20,16,${alpha.toFixed(3)})`;
+    c.lineWidth   = 1.4;
+    c.beginPath();
+    c.moveTo(textLeft + indent, y);
+    c.lineTo(textLeft + indent + lineLen, y);
+    c.stroke();
+
+    li++;
+    if (isLast) {
+      y          += lineH + paraGap;
+      paraLine    = 0;
+      isParaStart = true;
+    } else {
+      y          += lineH;
+      paraLine++;
+      isParaStart = false;
+    }
   }
 
   // Page number
-  c.fillStyle = "rgba(26,20,16,0.2)";
-  c.font = "13px Georgia, serif";
+  c.fillStyle = "rgba(26,20,16,0.22)";
+  c.font      = "16px Georgia, serif";
   c.textAlign = "center";
-  c.fillText(`${seed * 2 + 1}`, cv.width / 2, cv.height - 22);
+  c.fillText(String(seed * 14 + 1), cv.width / 2, cv.height - 44);
 
   const t = new THREE.CanvasTexture(cv);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -286,7 +338,7 @@ export default function BookCanvas({ wrapperRef }: Props) {
     // ── Textures ─────────────────────────────────────────────
     const coverTex = makeCoverTex();
     const spineTex = makeSpineTex();
-    const pageTex  = Array.from({ length: 3 }, (_, i) => makePageTex(i));
+    const pageTex  = Array.from({ length: N }, (_, i) => makePageTex(i));
 
     // ── Materials ────────────────────────────────────────────
     const coverFrontMat = new THREE.MeshPhysicalMaterial({
